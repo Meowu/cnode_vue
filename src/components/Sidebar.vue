@@ -23,6 +23,11 @@ export default {
     color: #fff;
     border: 1px solid #ddd;
     /*padding: 10px 0;*/
+    position: absolute;
+    top: 60px;
+    height: 255px;
+    transition: all 0.3s ease-out;
+    transform: translateX(-100px);
   }
   li {
     list-style-type: none;
@@ -30,5 +35,9 @@ export default {
     text-align: center;
     height: 50px;
     line-height: 50px;
+  }
+  .toggleDisplay {
+    transition: all 0.3s ease-out;
+    transform: translateX(0);
   }
 </style>

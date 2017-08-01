@@ -13,18 +13,18 @@ Vue.use(Router);
 
 export default new Router({
   mode: 'history',
-  // base: __dirname,
+  base: __dirname,
   routes: [
     {
       path: '/',
       name: 'All',
       component: ArticleList,
     },
-    // {
-    //   path: '/:tab',
-    //   name: 'tab',
-    //   component: ArticleList,
-    // },
+    {
+      path: '/topics/:tab',
+      name: 'tab',
+      component: ArticleList,
+    },
     {
       path: '/profile',
       name: 'profile',

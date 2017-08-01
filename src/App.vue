@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <nav-bar></nav-bar>
+    <!-- <keep-alive> -->
     <router-view></router-view>
+    <!-- </keep-alive> -->
     <side-bar :class='{toggleDisplay: displaySidebar}'></side-bar>
     <div class="loading" v-show='loading'>
       玩命加载中...
@@ -47,7 +49,7 @@ export default {
 </script>
 <style scoped>
 #app {
-  font-family: 'Avenir',  Helvetica, Arial, sans-serif;
+  font-family: 'Avenir',  Helvetica, '微软雅黑', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;

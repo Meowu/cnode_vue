@@ -7,19 +7,27 @@
         <span ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
       </div>
       <div class="tab">
-        <router-link to="/" class="current-tab"><span>全部</span></router-link>
-        <router-link to="/good"><span>精华</span></router-link>
-        <router-link to="/share"><span>分享</span></router-link>
-        <router-link to="/ask"><span>问答</span></router-link>
-        <router-link to="/hire"><span>招聘</span></router-link>
+        <a :class="{current_tab: isCurrent==='all'}" @click.stop='changeTab("all")'><span>全部</span></a>
+        <a :class="{current_tab: isCurrent==='good'}" @click.stop='changeTab("good")'><span>精华</span></a>
+        <a :class="{current_tab: isCurrent==='share'}" @click.stop='changeTab("share")'><span>分享</span></a>
+        <a :class="{current_tab: isCurrent==='ask'}" @click.stop='changeTab("ask")'><span>问答</span></a>
+        <a :class="{current_tab: isCurrent==='job'}" @click.stop='changeTab("job")'><span>招聘</span></a>
+        <a :class="{current_tab: isCurrent==='dev'}" @click.stop='changeTab("dev")'><span>测试</span></a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {mapState} from 'vuex';
+import axios from 'axios';
 export default {
   name: 'navbar',
+  computed: {
+    ...mapState([
+      'isCurrent'
+    ])
+  },
   methods: {
     login () {
       if (!this.$store.state.user.isLoggin) {
@@ -27,8 +35,23 @@ export default {
       } else {
         this.$store.dispatch('displaySidebar')
       }
+    },
+    changeTab (tab) {
+      this.$store.dispatch('isCurrent', tab)
+      this.$store.dispatch('changeTopic', tab)
+      this.$router.push(`/topics/${tab}`)
+
     }
   }
+  // watch: {
+  //   '$route' () {
+  //       axios.get(`https://cnodejs.org/api/v1/topics?tab=${this.currentTab}&page=${this.page}&limit=${this.limit}`)
+  //       .then((res) => {
+  //         this.$store.dispatch('initData', res.data.data)
+  //         // this.$store.dispatch('articleList', res.data)
+  //       })
+  //   }
+  // }
 }
 </script>
 
@@ -91,7 +114,7 @@ export default {
     flex: auto;
     text-align: center;
   }
-  div.tab .current-tab {
+  div.tab .current_tab {
     background-color: #80bd01;
   }
 </style>

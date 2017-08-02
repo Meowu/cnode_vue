@@ -37,7 +37,8 @@ export default {
         localStorage.setItem('user_id', res.data.id)
         localStorage.setItem('loginname', res.data.loginname)
         localStorage.setItem('avatar_url', res.data.avatar_url)
-        toast()
+        this.$store.dispatch('toggleLogin')
+        toast('登录成功', 100, 20, 1000)
         this.$router.push('/')
       })
       .catch(err => {

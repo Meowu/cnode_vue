@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import toast from '../common/utils/toast';
+
 export default {
   name: 'bottom-bar',
   methods: {
@@ -18,7 +20,9 @@ export default {
       window.scrollTo()
     },
     backTop () {
-      window.scrollTo(0, 0)
+      console.log(typeof toast);
+      window.scrollTo(0, 0);
+      toast('收藏成功', 100, 20, 1200);
     },
     mark () {
       // this.$router.go(0)

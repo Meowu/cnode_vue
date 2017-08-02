@@ -26,6 +26,9 @@ export default {
     'isContent'
   ])
   },
+  created () {
+    this.$store.dispatch('toggleLogin')
+  },
   mounted () {
     // window.onload = () => {
     //   if (window.pageYOffset >= 300) {

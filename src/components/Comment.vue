@@ -1,10 +1,12 @@
 <template lang="html">
-  <div class="comments">
-    <div class="comments" v-for='(reply, index) in topicDatas.replies'>
+  <div class="comment-list">
+    <div class="comment" v-for='(reply, index) in topicDatas.replies'>
       <div class="header">
         <span class="author-url"><img :src="reply.author.avatar_url" alt=""></span>
-        <span class="author-name">{{reply.author.loginname}}</span><span>#{{index}}</span>
-        <span class="created-time">{{reply.create_at}}前回复</span>
+        <span class="comment-info">
+          <span class="author-name" @click='checkAuthor(reply.author.loginname)'>{{reply.author.loginname}}</span><span>#{{index + 1}}</span><br />
+          <span class="created-time">{{reply.create_at | formatTime}}</span>
+        </span>
       </div>
       <div class="comment-content" v-html='reply.content'></div>
     </div>
@@ -12,17 +14,80 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
-
+import {mapState} from 'vuex';
+import toast from '../common/utils/toast';
+import axios from 'axios';
 export default {
   name: 'comment',
   computed: {
     ...mapState({
       topicDatas: state => state.content.topic_content
     })
+  },
+  methods: {
+    checkAuthor (name) {
+      // this.$store.dispatch('checkUser', name)
+      // this.$router.push('/profile')
+      console.log(name);
+      axios.get(`https://cnodejs.org/api/v1/user/${name}`)
+      .then( res => {
+        console.log(res);
+        this.$store.dispatch('checkUser', res.data.data)
+        this.$router.push('/profile')
+        this.$store.dispatch('isContent', false)
+      })
+      .catch(err => {
+        console.log(err);
+        toast('查看失败。', 100, 20, 1000)
+      })
+    }
   }
 }
 </script>
 
 <style lang="css">
+  div.comment-list {
+    width: 100%;
+    background-color: #fff;
+    box-sizing: border-box;
+    /*padding: 10px;*/
+    margin-bottom: 45px;
+  }
+  div.comment-list div.comment {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 5px;
+    padding: 5px 10px 0 10px;
+  }
+  div.comment-list div.header span {
+    /*display: inline-block;*/
+    margin-right: 10px;
+    vertical-align: baseline;
+    /*margin-bottom: 5px;*/
+    color: #888;
+    font-size: 0.8em;
+  }
+  div.comment-list div.header span.author-name {
+    font-size: 1em;
+    color: #000;
+  }
+  div.comment-list div.header span.author-url {
+    width: 10%;
+    /* 变成块元素后面的img才能继承它的宽度。*/
+    display: inline-block;
+  }
+  div.comment-list div.header span.comment-info {
+    display: inline-block;
+    line-height: 1.5;
+  }
+  div.comment-list div.header span.author-url img{
+    width: 100%;
+    border-radius: 50%;
+  }
+  div.comment-list div.markdown-text {
+    font-size: 0.9em;
+    padding: 0 0 5px 20px;
+  }
+  div.comment-list div.markdown-text a {
+    color: #4283ac;
+  }
 </style>

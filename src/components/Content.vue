@@ -22,7 +22,7 @@ export default {
     border-bottom: 1px solid #ccc;
     width: 100%;
     background: #fff;
-    margin: 12px 0 45px;
+    margin: 12px 0 10px;
     color: #000;
     padding: 5px;
   }

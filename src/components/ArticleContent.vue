@@ -2,9 +2,9 @@
   <div class="content">
     <div class="article-details">
       <p>{{ topicDatas.title}}</p>
-      <span class="author-url"><img :src="topicDatas.author.avatar_url" alt=""></span>
+      <span class="author-url" ><img :src="topicDatas.author.avatar_url" alt=""></span>
       <span class="details">
-        <span class="author-name">{{ topicDatas.author.loginname}}</span>
+        <span class="author-name" @click='checkAuthor(topicDatas.author.loginname)'>{{ topicDatas.author.loginname}}</span>
         <span class="good" v-if='topicDatas.top'>置顶</span>
         <span class="topic">{{ topicDatas.tab | formatTab}}</span><br />
         <span class="created-time"><span>发布于</span>{{topicDatas.create_at | formatTime}}</span>
@@ -24,19 +24,20 @@
 <script>
 import Bottombar from './BottomBar';
 import Content from './Content';
-import Comment from './Comment';
-import {mapState} from 'vuex'
+import Comments from './Comment';
+import {mapState} from 'vuex';
+import axios from 'axios';
+import toast from '../common/utils/toast';
 
 export default {
   name: 'content',
   components: {
     'bottom-bar': Bottombar,
     'topic-content': Content,
-    'comment-list': Comment,
+    'comment-list': Comments,
   },
   data () {
     return {
-
     }
   },
   mounted () {
@@ -46,6 +47,22 @@ export default {
     ...mapState({
       topicDatas: state => state.content.topic_content
     })
+  },
+  methods: {
+    checkAuthor (name) {
+      console.log(name);
+      axios.get(`https://cnodejs.org/api/v1/user/${name}`)
+      .then( res => {
+        console.log(res);
+        this.$store.dispatch('checkUser', res.data.data)
+        this.$router.push('/profile')
+        this.$store.dispatch('isContent', false)
+      })
+      .catch(err => {
+        console.log(err);
+        toast('查看失败。', 100, 20, 1000)
+      })
+    }
   }
 }
 </script>

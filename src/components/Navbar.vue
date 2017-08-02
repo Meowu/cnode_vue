@@ -2,7 +2,7 @@
   <div class="nav-bar fixedBar" >
     <div class="nav" >
       <div class="header">
-        <span class="user-pic" @click.stop='login'><img class="user-pic" src="../assets/userpic.jpg" alt="user-pic"></span>
+        <span class="user-pic" @click.stop='login'><img class="user-pic" :src="avatar_url" alt="user-pic"></span>
         <span class="logo"><img src="../assets/cnodejs_light.svg" alt=""></span>
         <span ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
       </div>
@@ -21,19 +21,33 @@
 <script>
 import {mapState} from 'vuex';
 import axios from 'axios';
+import toast from '../common/utils/toast';
+
 export default {
   name: 'navbar',
   computed: {
     ...mapState([
-      'isCurrent'
+      'isCurrent',
+      'isLogin',
+      'avatar_url',
+      'user_id',
+      'loginname'
     ])
   },
   methods: {
     login () {
-      if (!this.$store.state.user.isLoggin) {
+      if (!this.isLogin) {
         this.$router.push('/login')
       } else {
-        this.$store.dispatch('displaySidebar')
+        axios.get(`https://cnodejs.org/api/v1/user/${this.loginname}`)
+        .then( res => {
+          this.$store.dispatch('checkUser', res.data.data)
+          this.$router.push('/profile')
+        })
+        .catch(err => {
+          console.log(err);
+          toast('查看失败。', 100, 20, 1000)
+        })
       }
     },
     changeTab (tab) {
@@ -45,20 +59,12 @@ export default {
 
     }
   }
-  // watch: {
-  //   '$route' () {
-  //       axios.get(`https://cnodejs.org/api/v1/topics?tab=${this.currentTab}&page=${this.page}&limit=${this.limit}`)
-  //       .then((res) => {
-  //         this.$store.dispatch('initData', res.data.data)
-  //         // this.$store.dispatch('articleList', res.data)
-  //       })
-  //   }
-  // }
 }
 </script>
 
 <style lang="css" scoped>
-  .nav {
+  .nav-bar {
+    width: 100%;
     /*top: 0;*/
     /*position: static;*/
   }

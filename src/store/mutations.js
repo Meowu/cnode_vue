@@ -4,4 +4,10 @@ export default {
   IS_CURRENT: (state, tab) => state.isCurrent = tab,
   IS_LOADING: (state, value) => state.loading = value,
   IS_CONTENT: (state, value) => state.isContent = value,
+  TOGGLE_LOGIN: state => {
+    state.isLogin = true;
+    state.avatar_url = localStorage.getItem('avatar_url');
+    state.user_id = localStorage.getItem('user_id');
+    state.loginname = localStorage.getItem('loginname');
+  }
 }

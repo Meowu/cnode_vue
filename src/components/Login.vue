@@ -54,8 +54,8 @@ export default {
 
 <style lang="css" scoped>
   .login {
-    height: 100%;
-    margin-top: 30%;
+    /*height: 100%;*/
+    margin-top: 100px;
     padding: 0 20px;
     /*background-color: #4cebb8;*/
   }

@@ -1,6 +1,6 @@
 <template lang="html">
-  <div class="nav-bar">
-    <div class="nav">
+  <div class="nav-bar fixedBar" >
+    <div class="nav" >
       <div class="header">
         <span class="user-pic" @click.stop='login'><img class="user-pic" src="../assets/userpic.jpg" alt="user-pic"></span>
         <span class="logo"><img src="../assets/cnodejs_light.svg" alt=""></span>
@@ -37,8 +37,10 @@ export default {
       }
     },
     changeTab (tab) {
+      window.scrollTo(0, 0)
       this.$store.dispatch('isCurrent', tab)
       this.$store.dispatch('changeTopic', tab)
+      this.$store.dispatch('resetLimit')
       this.$router.push(`/topics/${tab}`)
 
     }
@@ -57,8 +59,13 @@ export default {
 
 <style lang="css" scoped>
   .nav {
-    top: 0;
+    /*top: 0;*/
     /*position: static;*/
+  }
+  .fixedBar {
+    position: fixed;
+    z-index: 888;
+    top: 0;
   }
   .header {
     margin: 0;

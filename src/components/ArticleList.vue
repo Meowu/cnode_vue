@@ -1,16 +1,19 @@
 <template lang="html">
   <div class="article-list">
     <div class="article" v-for='topic in topic_data'>
-      <p class="title">{{ topic.title }}</p>
+      <p class="title" @click='readContent(topic.id)'>{{ topic.title }}</p>
       <div class="article-info">
         <a href="#" class="user-image"><img :src="topic.author.avatar_url" alt="userimage"></a>
         <p class="reply-time">
           <span class="author-name">{{ topic.author.loginname}}</span><br />
-          <span>最后回复于</span><span>{{topic.last_reply_at | format}}</span>
+          <span>最后回复于</span><span>{{topic.last_reply_at | formatTime}}</span>
           <span><i class="fa fa-comment-o" aria-hidden="true"></i></span><span class="comments">{{topic.reply_count}}</span>
         </p>
-        <span class="topic" v-show='topic.tab' :class="{top: topic.top}" >{{ topic.top? topic.top:topic.tab | tabName}}</span>
+        <span class="topic" v-show='topic.tab' :class="{top: topic.top}" >{{ topic.top? topic.top:topic.tab | formatTab}}</span>
       </div>
+    </div>
+    <div class="loading" v-show='loading'>
+      玩命加载中...
     </div>
   </div>
 </template>
@@ -24,11 +27,6 @@ export default {
   name: 'article-list',
   data () {
     return {
-      good: '精华',
-      ask: '问答',
-      share: '分享',
-      job: '招聘',
-      dev: '测试'
     }
   },
   computed: {
@@ -37,44 +35,8 @@ export default {
       page: state => state.articles.page,
       currentTab: state => state.articles.currentTab,
       topic_data: state => state.articles.topic_data,
-    })
-  },
-  filters: {
-    format (value) {
-      let interval = Date.now() - Date.parse(value)
-      if (interval / (1000*60*60*24*30*12) >= 1) {
-        return `${parseInt(interval / (1000*60*60*24*30*12))}年前`
-      } else if (interval / (1000*60*60*24*30) >= 1) {
-        return `${parseInt(interval / (1000*60*60*24*30))}个月前`
-      } else if (interval / (1000*60*60*24) >= 1) {
-        return `${parseInt(interval / (1000*60*60*24))}天前`
-      } else if (interval / (1000*60*60) >= 1) {
-        return `${parseInt(interval / (1000*60*60))}小时前`
-      } else if (interval / (1000*60) >= 1) {
-        return `${parseInt(interval / (1000*60))}分钟前`
-      }
-    },
-    tabName (value) {
-      switch (value) {
-        case 'ask':
-          return '问答';
-          break;
-        case 'share':
-          return '分享';
-          break;
-        case 'good':
-          return '精华';
-          break;
-        case 'job':
-          return '招聘';
-          break;
-        case 'dev':
-          return '测试';
-          break;
-        default:
-          return '置顶';
-      }
-    }
+      loading: state => state.loading,
+    }),
   },
   methods: {
     fetchData () {
@@ -83,18 +45,55 @@ export default {
           this.$store.dispatch('initData', res.data.data)
           // this.$store.dispatch('articleList', res.data)
         })
+    },
+    throttle (fn) {
+      clearTimeout(fn.id);
+      fn.id = setTimeout(fn, 200)
+    },
+    asynData () {
+      let x = window.pageXOffset
+      let y = window.pageYOffset
+      localStorage.setItem('pageX', x)
+      localStorage.setItem('pageY', y)
+      if (document.documentElement.scrollHeight - window.pageYOffset === document.documentElement.clientHeight) {
+        this.$store.dispatch('isLoading', true)
+        this.$store.dispatch('changeLimit')
+        axios.get(`https://cnodejs.org/api/v1/topics?tab=${this.currentTab}&page=${this.page}&limit=${this.limit}`)
+        .then((res) => {
+          this.$store.dispatch('initData', res.data.data)
+          this.$store.dispatch('isLoading', false)
+          // this.$store.dispatch('articleList', res.data)
+        })
+      } else {
+        this.$store.dispatch('isLoading', false)
+      }
+    },
+    readContent (id) {
+      axios.get(`https://cnodejs.org/api/v1/topic/${id}`)
+      .then((res) => {
+        this.$store.dispatch('renderContent', res.data.data)
+        // this.$store.dispatch('articleList', res.data)
+      })
+      this.$store.dispatch('isLoading', false)
+      this.$store.dispatch('isContent', true)
+      this.$router.push(`/topics/content/${id}`)
     }
   },
   created () {   // 方法和生命周期钩子中引用计算属性要加this
     this.fetchData()
   },
   watch: {
+    // 再次点击同一个tab，由于路由不变数据不会重新渲染
+    // 并且由于在点击事件中设置了scrollTo(0, 0)，会直接返回顶部
     '$route.params.tab' () {  //路由变化，重新渲染数据以便复用组件，不带this。
       this.fetchData()
-      toast()
+      // toast()
     }
   },
   mounted () {
+    window.onscroll = () => {
+      this.throttle(this.asynData)
+    }
     // toast()
   }
   // activated () {
@@ -112,11 +111,13 @@ export default {
     box-sizing: border-box;
     width: 100%;
     font-size: 0.9em;
+    margin-top: 90px;
   }
   div.article {
     padding: 10px;
     position: relative;
     border-bottom: 1px solid #ccc;
+    background-color: #fff;
   }
   div.article p.title {
     margin-bottom: 10px;
@@ -161,5 +162,12 @@ export default {
     right: 5px;
     bottom: 10px;
     color: #666;
+  }
+  div.loading {
+    text-align: center;
+    background-color: #ddd;
+    padding: 5px;
+    font-size: 1em;
+    font-weight: lighter;
   }
 </style>

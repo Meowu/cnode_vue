@@ -11,12 +11,19 @@ import Login from '@/components/Login'
 
 Vue.use(Router);
 
+// 一个坑，当F5或者reload或者router.go(0)刷新当前页面时，无法渲染正确的组件
+// 首页刷新不是根据url渲染，而是根据初始值？
 export default new Router({
   mode: 'history',
   base: __dirname,
   routes: [
     {
       path: '/',
+      name: 'All',
+      component: ArticleList,
+    },
+    {
+      path: '/topics',
       name: 'All',
       component: ArticleList,
     },
@@ -41,7 +48,7 @@ export default new Router({
       component: About,
     },
     {
-      path: '/content',
+      path: '/topics/content/:id',
       name: 'content',
       component: ArticleContent,
     },

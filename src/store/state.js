@@ -1,5 +1,6 @@
 export default {
   displaySidebar: false,
   loading: false,
-  isCurrent: 'all'
+  isCurrent: 'all',
+  isContent: false
 }

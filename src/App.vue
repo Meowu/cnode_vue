@@ -1,13 +1,8 @@
 <template>
   <div id="app">
-    <nav-bar></nav-bar>
-    <!-- <keep-alive> -->
+    <nav-bar v-show='!isContent'></nav-bar>
     <router-view></router-view>
-    <!-- </keep-alive> -->
-    <side-bar :class='{toggleDisplay: displaySidebar}'></side-bar>
-    <div class="loading" v-show='loading'>
-      玩命加载中...
-    </div>
+    <!-- <side-bar :class='{toggleDisplay: displaySidebar}'></side-bar> -->
   </div>
 </template>
 
@@ -20,16 +15,23 @@ export default {
   name: 'app',
   data() {
     return {
+      backtoTop: false,
     }
   },
   computed :{
     ...mapState([
       // 如果这里使用同名属性必须加'',并且是数组
     'displaySidebar',
-    'loading'
+    'loading',
+    'isContent'
   ])
   },
   mounted () {
+    // window.onload = () => {
+    //   if (window.pageYOffset >= 300) {
+    //     this.backtoTop = true
+    //   }
+    // }
     document.onclick = (e) => {
       // this.$store.dispatch('displaySidebar')
       e.stopPropagation()
@@ -44,6 +46,7 @@ export default {
     //   // e.stopPropagation()
     //   // this.displaySidebar = this.displaySidebar ? false:true
     // },
+
   }
 };
 </script>
@@ -53,14 +56,9 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  word-break: break-all;
+  /*word-wrap: break-word;*/
 }
 
-div.loading {
-  text-align: center;
-  background-color: #ddd;
-  padding: 5px;
-  font-size: 1.2em;
-  font-weight: bold;
-}
 
 </style>

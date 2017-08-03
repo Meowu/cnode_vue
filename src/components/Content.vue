@@ -50,16 +50,16 @@ export default {
     margin: 10px 0;
     line-height: 1.6;
   }
-  div.markdown-text p img {
+  div.inner-content div.markdown-text img {
     display: block;
     width: 100%;
     margin: 10px auto;
   }
-    div.markdown-text li img {
+    /*div.markdown-text li img {
       display: block;
       width: 100%;
       margin: 10px auto;
-    }
+    }*/
   div.inner-content div.markdown-text blockquote {
     color: #666;
     font-size: 0.9em;

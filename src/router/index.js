@@ -9,13 +9,27 @@ import Profile from '@/components/Profile'
 import Publish from '@/components/Publish'
 import Login from '@/components/Login'
 
-Vue.use(Router);
+Vue.use(Router)
 
 // 一个坑，当F5或者reload或者router.go(0)刷新当前页面时，无法渲染正确的组件
 // 首页刷新不是根据url渲染，而是根据初始值？
+
+const scrollBehavior = (to, from, savedPosition) => {
+  if (savedPosition) {
+    return savedPosition
+  } else {
+    const position = {}
+    if (to.mathched.some(m => m.meta.scrollToTop)) {
+        position.x = 0
+        position.y = 0
+    }
+    return position
+  }
+}
 export default new Router({
   mode: 'history',
   base: __dirname,
+  scrollBehavior,
   routes: [
     {
       path: '/',
@@ -51,6 +65,7 @@ export default new Router({
       path: '/topics/content/:id',
       name: 'content',
       component: ArticleContent,
+      meta: { scrollToTop: true }
     },
     {
       path: '/login',

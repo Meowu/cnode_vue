@@ -51,7 +51,7 @@ export default {
     line-height: 1.6;
   }
   div.inner-content div.markdown-text img {
-    display: block;
+    /*display: block;*/
     width: 100%;
     margin: 10px auto;
   }

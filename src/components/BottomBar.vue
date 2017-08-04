@@ -16,12 +16,20 @@ export default {
     backward () {
       this.$router.go(-1)
       this.$store.dispatch('isContent', false)
-
-      window.scrollTo()
     },
     backTop () {
-      console.log(typeof toast);
-      window.scrollTo(0, 0);
+      var timer
+      var pageY = window.pageYOffset
+      let y = Math.floor(pageY / 20)
+      timer = setInterval(() => {
+        window.scrollBy(0, -y)
+        // pageY = window.pageYOffset
+        pageY = window.pageYOffset;
+        if (pageY <= 0) {
+          clearInterval(timer)
+        }
+      }, 10)
+
       toast('收藏成功', 100, 20, 1200);
     },
     mark () {

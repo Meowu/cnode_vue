@@ -41,7 +41,7 @@ export default {
     }
   },
   mounted () {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   },
   computed: {
     ...mapState({
@@ -50,7 +50,6 @@ export default {
   },
   methods: {
     checkAuthor (name) {
-      console.log(name);
       axios.get(`https://cnodejs.org/api/v1/user/${name}`)
       .then( res => {
         console.log(res);

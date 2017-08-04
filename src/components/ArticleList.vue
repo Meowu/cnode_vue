@@ -94,7 +94,9 @@ export default {
     window.onscroll = () => {
       this.throttle(this.asynData)
     }
-    // toast()
+  },
+  beforeDestroy () {
+    window.onscroll = null
   }
   // activated () {
   //   axios.get(`https://cnodejs.org/api/v1/topics?tab=${this.currentTab}&page=${this.page}&limit=${this.limit}`)
@@ -111,7 +113,7 @@ export default {
     box-sizing: border-box;
     width: 100%;
     font-size: 0.9em;
-    margin-top: 90px;
+    margin-top: 100px;
   }
   div.article {
     padding: 10px;

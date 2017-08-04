@@ -1,19 +1,17 @@
 <template lang="html">
   <div class="nav-bar fixedBar" >
-    <div class="nav" >
-      <div class="header">
-        <span class="user-pic" @click.stop='login'><img class="user-pic" :src="avatar_url" alt="user-pic"></span>
-        <span class="logo"><img src="../assets/cnodejs_light.svg" alt=""></span>
-        <span ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
-      </div>
-      <div class="tab">
-        <a :class="{current_tab: isCurrent==='all'}" @click.stop='changeTab("all")'><span>全部</span></a>
-        <a :class="{current_tab: isCurrent==='good'}" @click.stop='changeTab("good")'><span>精华</span></a>
-        <a :class="{current_tab: isCurrent==='share'}" @click.stop='changeTab("share")'><span>分享</span></a>
-        <a :class="{current_tab: isCurrent==='ask'}" @click.stop='changeTab("ask")'><span>问答</span></a>
-        <a :class="{current_tab: isCurrent==='job'}" @click.stop='changeTab("job")'><span>招聘</span></a>
-        <a :class="{current_tab: isCurrent==='dev'}" @click.stop='changeTab("dev")'><span>测试</span></a>
-      </div>
+    <div class="header">
+      <span class="user-pic" @click.stop='login'><img class="user-pic" :src="avatar_url" alt="user-pic"></span>
+      <span class="logo"><img src="../assets/cnodejs_light.svg" alt=""></span>
+      <span class="add-topic"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+    </div>
+    <div class="tab">
+      <a :class="{current_tab: isCurrent==='all'}" @click.stop='changeTab("all")'><span>全部</span></a>
+      <a :class="{current_tab: isCurrent==='good'}" @click.stop='changeTab("good")'><span>精华</span></a>
+      <a :class="{current_tab: isCurrent==='share'}" @click.stop='changeTab("share")'><span>分享</span></a>
+      <a :class="{current_tab: isCurrent==='ask'}" @click.stop='changeTab("ask")'><span>问答</span></a>
+      <a :class="{current_tab: isCurrent==='job'}" @click.stop='changeTab("job")'><span>招聘</span></a>
+      <a :class="{current_tab: isCurrent==='dev'}" @click.stop='changeTab("dev")'><span>测试</span></a>
     </div>
   </div>
 </template>
@@ -63,10 +61,9 @@ export default {
 </script>
 
 <style lang="css" scoped>
-  .nav-bar {
+  div.nav-bar {
+    height: 15%;
     width: 100%;
-    /*top: 0;*/
-    /*position: static;*/
   }
   .fixedBar {
     position: fixed;
@@ -74,44 +71,46 @@ export default {
     top: 0;
   }
   .header {
-    margin: 0;
-    /*position: fixed;*/
-    box-sizing: border-box;
-    height: 60px;
+    text-align: center;
+    display: flex;
+    height: 70%;
     width: 100%;
-    padding: 5px 5px;
     background: rgb(68, 68, 68);
-    /*background: url(./assets/cnodejs.svg) no-repeat;*/
-    /*background-position: center;*/
   }
-  span.user-pic {
-    display: inline-block;
-    vertical-align: bottom;
+  div.header span.user-pic {
+    flex: auto;
     width: 15%;
+    /*flex添加边距会自动伸展空间*/
+    padding: 5px;
   }
   span.add-topic {
     box-sizing: border-box;
-    display: inline-block;
+    /*单行内联元素垂直居中：上下内边距相等。*/
+    padding: 20px 0;
+    flex: auto;
     width: 15%;
   }
-  span.logo {
-    display: inline-block;
-    box-sizing: border-box;
-    width: 70%;
-    padding: 0 10px;
-    vertical-align: super;
-  }
-  i {
-    color: #ddd;
-    font-size: 2.2em;
-    vertical-align:super;
-  }
-  img.user-pic {
+  span.logo img {
+    height: 100%;
     width: 100%;
-    /*height: 100%;*/
+  }
+  span.logo {
+    flex: auto;
+    padding: 5px;
+    width: 70%;
+  }
+  span.add-topic i {
+    color: #ddd;
+    font-size: 2.5em;
+    /*margin-top: 50%;*/
+  }
+  span.user-pic img {
+    height: 100%;
+    width: 100%;
     border-radius: 50%;
   }
   div.tab {
+    height: 30%;
     display: flex;
     background-color: #ddd;
   }

@@ -90,4 +90,12 @@ export default {
   div.comment-list div.markdown-text a {
     color: #4283ac;
   }
+  div.comment-list div.markdown-text img {
+    width: 100%;
+  }
+  div.comment-list div.markdown-text pre {
+        word-break: break-all;
+        color: #e73670;
+        overflow: auto;
+  }
 </style>

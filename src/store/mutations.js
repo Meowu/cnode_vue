@@ -9,5 +9,7 @@ export default {
     state.avatar_url = localStorage.getItem('avatar_url');
     state.user_id = localStorage.getItem('user_id');
     state.loginname = localStorage.getItem('loginname');
-  }
+    state.token = localStorage.getItem('token');
+  },
+  LOG_OUT: state => state.isLogin = false
 }

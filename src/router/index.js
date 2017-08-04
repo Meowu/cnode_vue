@@ -72,5 +72,10 @@ export default new Router({
       name: 'login',
       component: Login,
     },
+    {
+      path: '/publish',
+      name: 'publish',
+      component: Publish,
+    },
   ],
 });

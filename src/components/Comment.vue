@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="comment-list">
+  <div class="comment-list" ref='comment'>
     <div class="comment" v-for='(reply, index) in topicDatas.replies'>
       <div class="header">
         <span class="author-url"><img :src="reply.author.avatar_url" alt=""></span>
@@ -24,11 +24,18 @@ export default {
       topicDatas: state => state.content.topic_content
     })
   },
+  mounted () {
+    if (!this.topicDatas.replies.length) {
+      this.$refs.comment.textContent = '暂无回复'
+      this.$refs.comment.style.backgroundColor = '#eee'
+      this.$refs.comment.style.textAlign = 'center'
+      this.$refs.comment.style.coloe = '#ccc'
+    }
+  },
   methods: {
     checkAuthor (name) {
       // this.$store.dispatch('checkUser', name)
       // this.$router.push('/profile')
-      console.log(name);
       axios.get(`https://cnodejs.org/api/v1/user/${name}`)
       .then( res => {
         console.log(res);

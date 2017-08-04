@@ -31,12 +31,12 @@ export default {
         }, 1000)
         return
       }
-      console.log(this.token);
       axios.post('https://cnodejs.org/api/v1/accesstoken', {accesstoken: this.token})
       .then(res => {
         localStorage.setItem('user_id', res.data.id)
         localStorage.setItem('loginname', res.data.loginname)
         localStorage.setItem('avatar_url', res.data.avatar_url)
+        localStorage.setItem('token', this.token)
         this.$store.dispatch('toggleLogin')
         toast('登录成功', 100, 20, 1000)
         this.$router.push('/')
@@ -56,7 +56,7 @@ export default {
 <style lang="css" scoped>
   .login {
     /*height: 100%;*/
-    margin-top: 100px;
+    margin-top: 150px;
     padding: 0 20px;
     /*background-color: #4cebb8;*/
   }
@@ -65,12 +65,14 @@ export default {
     /*display：block会出现很大的下边距*/
     display: inline-block;
     padding-bottom: 5px;
+    font-size: 1.5em;
   }
   #token {
     height: 35px;
     outline: none;
     width: 95%;
-    padding-left: 5px;
+    font-size: 1.2em;
+    padding-left: 10px;
     border-radius: 5px;
     border: 1px solid #ddd;
     background-color: rgba(#999, 0.8);
@@ -81,14 +83,24 @@ export default {
     border: 1px solid #b5eef5;
   }
   #btn {
-    margin-left: 70%;
-    width: 60px;
-    height: 30px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    background-color: #eee;
+    width: 70px;
+    height: 35px;
+    line-height: 1.5;
+    font-size: 1em;
+    font-weight: bold;
     outline: none;
-    margin-bottom: 5px;
+    letter-spacing: 5px;
+    color: #fff;
+    margin-left: 50%;
+    transform: translateX(-35px);
+    -webkit-transform: translateX(-35px);
+    -ms-transform: translateX(-35px);
+    -moz-transform: translateX(-35px);
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 3px;
+    background-color: #61ccdd;
+    border: 1px solid #ccc;
   }
   p.alert {
     text-align: center;

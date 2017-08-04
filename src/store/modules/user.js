@@ -1,6 +1,6 @@
 export default {
   state: {
-    loginname: null,
+    username: null,
     githubUsername: null,
     score: null,
     avatar_url: null,
@@ -11,7 +11,7 @@ export default {
   },
   mutations: {
     CHECK_USER: (state, data) => {
-      state.loginname = data.loginname;
+      state.username = data.loginname;
       state.githubUsername = data.githubUsername;
       state.avatar_url = data.avatar_url;
       state.create_at = data.create_at;

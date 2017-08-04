@@ -27,7 +27,9 @@ export default {
   ])
   },
   created () {
-    this.$store.dispatch('toggleLogin')
+    if (localStorage.getItem('token')) {
+      this.$store.dispatch('toggleLogin')
+    }
   },
   mounted () {
     // window.onload = () => {

@@ -3,7 +3,7 @@
     <div class="header">
       <span class="user-pic" @click.stop='login'><img class="user-pic" :src="avatar_url" alt="user-pic"></span>
       <span class="logo"><img src="../assets/cnodejs_light.svg" alt=""></span>
-      <span class="add-topic"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+      <span class="add-topic" @click='publish'><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
     </div>
     <div class="tab">
       <a :class="{current_tab: isCurrent==='all'}" @click.stop='changeTab("all")'><span>全部</span></a>
@@ -55,6 +55,9 @@ export default {
       this.$store.dispatch('resetLimit')
       this.$router.push(`/topics/${tab}`)
 
+    },
+    publish () {
+      this.$router.push('/publish')
     }
   }
 }

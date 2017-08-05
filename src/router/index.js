@@ -17,15 +17,15 @@ Vue.use(Router)
 const scrollBehavior = (to, from, savedPosition) => {
   if (savedPosition) {
     return savedPosition
-  } else {
-    const position = {}
-    if (to.mathched.some(m => m.meta.scrollToTop)) {
-        position.x = 0
-        position.y = 0
-    }
-    return position
+  } 
+  const position = {}
+  if (to.mathched.some(m => m.meta.scrollToTop)) {
+    position.x = 0
+    position.y = 0
   }
+  return position
 }
+
 export default new Router({
   mode: 'history',
   base: __dirname,
@@ -33,12 +33,12 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'All',
+      name: 'home',
       component: ArticleList,
     },
     {
       path: '/topics',
-      name: 'All',
+      name: 'topic',
       component: ArticleList,
     },
     {
@@ -65,7 +65,7 @@ export default new Router({
       path: '/topics/content/:id',
       name: 'content',
       component: ArticleContent,
-      meta: { scrollToTop: true }
+      meta: { scrollToTop: true },
     },
     {
       path: '/login',

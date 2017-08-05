@@ -4,11 +4,13 @@
       <div class="header">
         <span class="author-url"><img :src="reply.author.avatar_url" alt=""></span>
         <span class="comment-info">
-          <span class="author-name" @click='checkAuthor(reply.author.loginname)'>{{reply.author.loginname}}</span><span>#{{index + 1}}</span><br />
+          <span class="author-name" @click='checkAuthor(reply.author.loginname)'>{{reply.author.loginname}}</span><span>#{{index + 1}}</span>
+          <span class='reply' @click.stop='replyComment(reply.author.loginname, reply.id, topicDatas.id)'>回复</span><br />
           <span class="created-time">{{reply.create_at | formatTime}}</span>
         </span>
       </div>
       <div class="comment-content" v-html='reply.content'></div>
+      <reply-box v-if='replied'></reply-box>
     </div>
   </div>
 </template>
@@ -17,11 +19,17 @@
 import {mapState} from 'vuex';
 import toast from '../common/utils/toast';
 import axios from 'axios';
+import Reply from './Reply';
+
 export default {
   name: 'comment',
+  components: {
+    'reply-box': Reply
+  },
   computed: {
     ...mapState({
-      topicDatas: state => state.content.topic_content
+      topicDatas: state => state.content.topic_content,
+      replied: state => state.reply
     })
   },
   mounted () {
@@ -47,6 +55,13 @@ export default {
         console.log(err);
         toast('查看失败。', 100, 20, 1000)
       })
+    },
+    replyComment(commentName, commentId, topicId) {
+      window.scrollTo(0, 0)
+      this.$store.dispatch('reply', true)
+      this.$store.dispatch('displayCommentName', commentName)
+      this.$store.dispatch('repliedIsComment', commentId)
+      // document.documentElement.style.backgroundColor = '#ddd'
     }
   }
 }
@@ -104,5 +119,10 @@ export default {
         word-break: break-all;
         color: #e73670;
         overflow: auto;
+  }
+  div.comment-list div.header span.reply {
+    position: absolute;
+    right: 10px;
+    letter-spacing: 3px;
   }
 </style>

@@ -11,5 +11,8 @@ export default {
     state.loginname = localStorage.getItem('loginname');
     state.token = localStorage.getItem('token');
   },
-  LOG_OUT: state => state.isLogin = false
+  LOG_OUT: state => state.isLogin = false,
+  REPLY: (state, bool) => state.reply = bool,
+  REPLY_ID: (state, id) => state.repliedId = id,
+  DISPLAY_NAME: (state, name) => state.commentName = name,
 }

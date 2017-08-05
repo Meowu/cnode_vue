@@ -18,6 +18,7 @@
     <topic-content></topic-content>
     <comment-list></comment-list>
     <bottom-bar></bottom-bar>
+    <reply-box v-if='reply'></reply-box>
   </div>
 </template>
 
@@ -25,6 +26,7 @@
 import Bottombar from './BottomBar';
 import Content from './Content';
 import Comments from './Comment';
+import Reply from './Reply';
 import {mapState} from 'vuex';
 import axios from 'axios';
 import toast from '../common/utils/toast';
@@ -35,17 +37,23 @@ export default {
     'bottom-bar': Bottombar,
     'topic-content': Content,
     'comment-list': Comments,
+    'reply-box': Reply,
   },
   data () {
     return {
     }
   },
   mounted () {
+    document.body.onclick = (e) => {
+      e.stopPropagation();
+      this.$store.dispatch('reply', false)
+    }
     // window.scrollTo(0, 0);
   },
   computed: {
     ...mapState({
-      topicDatas: state => state.content.topic_content
+      topicDatas: state => state.content.topic_content,
+      reply: state => state.reply
     })
   },
   methods: {
@@ -70,9 +78,6 @@ export default {
   div.content {
     box-sizing: border-box;
     width: 100%;
-    /*padding: 10px;*/
-    /*background-color: #fff;*/
-    /*margin-bottom: 20px;*/
   }
   div.article-details {
     border-bottom: 1px solid #ccc;

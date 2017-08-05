@@ -7,6 +7,6 @@ export default {
 
   },
   actions: {
-    renderContent: ({commit}, data) => commit('RENDER_CONTENT', data)
+    renderContent: ({ commit }, data) => commit('RENDER_CONTENT', data)
   }
 }

@@ -10,4 +10,7 @@ export default {
   user_id: null,
   score: null,
   githubName: null,
+  reply: false,
+  repliedId: null,
+  commentName: null,
 }

@@ -3,7 +3,7 @@
     <span @click='backward'><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
     <span @click='backTop'><i class="fa fa-arrow-up" aria-hidden="true"></i></span>
     <span @click='mark'><i class="fa fa-bookmark-o" aria-hidden="true"></i></span>
-    <span><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+    <span @click.stop='reply'><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
   </div>
 </template>
 
@@ -12,10 +12,17 @@ import toast from '../common/utils/toast';
 
 export default {
   name: 'bottom-bar',
+  computed: {
+    // reply
+  },
   methods: {
     backward () {
       this.$router.go(-1)
       this.$store.dispatch('isContent', false)
+    },
+    reply () {
+      window.scrollTo(0, 0)
+      this.$store.dispatch('reply', true)
     },
     backTop () {
       var timer

@@ -1,7 +1,7 @@
 <template lang="html">
     <div class='reply'>
         <div class='content-box'>
-            <textarea v-model='content'  class='content'>
+            <textarea ref='focus'  v-model='content'  class='content'>
             </textarea>
             <button @click.stop='replied' type='button' class='btn'>
                 回复
@@ -30,7 +30,11 @@ export default {
     })
   },
     mounted () {
-        
+        const textBox = document.querySelector('.content')
+        textBox.onclick = function (e) {
+            e.stopPropagation();
+            // this.focus();
+        }
     },
     methods: {
         replied () {

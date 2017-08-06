@@ -42,6 +42,10 @@ export default {
   },
   methods: {
     publish () {
+      if (!this.getToken) {
+        toast('请先登录。', 200, 20, 1000)
+        return 
+      }
       axios.post('https://cnodejs.org/api/v1/topics', {
         accesstoken: this.getToken,
         tab: this.selectedTab,

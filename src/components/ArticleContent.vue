@@ -43,18 +43,21 @@ export default {
     return {
     }
   },
-  mounted () {
-    document.body.onclick = (e) => {
-      e.stopPropagation();
-      this.$store.dispatch('reply', false)
-    }
-    // window.scrollTo(0, 0);
-  },
   computed: {
     ...mapState({
       topicDatas: state => state.content.topic_content,
       reply: state => state.reply
     })
+  },
+  mounted () {
+    document.body.onclick = (e) => {
+      e.stopPropagation();
+      this.$store.dispatch('reply', false)
+    }
+    window.scrollTo(0, 0);
+  },
+  beforeDestroy () {
+    this.$store.dispatch('rendContent', null)
   },
   methods: {
     checkAuthor (name) {

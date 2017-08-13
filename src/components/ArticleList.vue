@@ -55,6 +55,7 @@ export default {
       let y = window.pageYOffset
       localStorage.setItem('pageX', x)
       localStorage.setItem('pageY', y)
+      // 存在一个问题，到了底部之后如果继续拖动，会反复触发请求数据，暂未解决。
       if (document.documentElement.scrollHeight - window.pageYOffset === document.documentElement.clientHeight) {
         this.$store.dispatch('isLoading', true)
         this.$store.dispatch('changeLimit')

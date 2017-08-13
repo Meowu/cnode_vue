@@ -41,7 +41,7 @@ export default {
     },
     mark () {
       // this.$router.go(0)
-      window.location.reload()
+      // window.location.reload()
     }
   }
 }
